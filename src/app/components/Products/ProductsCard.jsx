@@ -1,5 +1,5 @@
 import React from 'react';
-import { styles } from '../styles/styles';
+import { styles } from '@/app/styles/styles';
 
 const ProductsCard = ({ data, setData, setOpen }) => {
     const { photo, products_quantity, products_price, company_name, city, state, postal_code, country } = data;

@@ -3,6 +3,8 @@ import Navbar from './components/Navbar'
 import FeaturedBio from './components/Biodata/FeaturedBio'
 import FeaturedRent from './components/Rent/FeaturedRent'
 import FeaturedSales from './components/Sales/FeaturedSales'
+import FeaturedVehicles from './components/Vehicles/FeaturedVehicles'
+import FeaturedProducts from './components/Products/FeaturedProducts'
 
 export default function Home() {
   return (
@@ -16,6 +18,12 @@ export default function Home() {
       </div>
       <div>
         <FeaturedSales />
+      </div>
+      <div>
+        <FeaturedVehicles />
+      </div>
+      <div>
+        <FeaturedProducts />
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
 import React from 'react';
-import { styles } from '../styles/styles';
+import { styles } from '@/app/styles/styles';
 
 const VehiclesCard = ({ data, setOpen, setData }) => {
     const { vehicle_name, vehicle_model, photo, price, vehicle_type, country } = data;

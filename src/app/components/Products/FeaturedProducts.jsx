@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import Loader from './Loader';
+import Loader from '../Loader';
 import axios from 'axios';
 import Link from 'next/link';
 import { RxCross1 } from 'react-icons/rx';
@@ -14,9 +14,9 @@ const FeaturedProducts = () => {
     const [data, setData] = useState();
 
     useEffect(() => {
-        axios.get('/api/products/get_products')
+        axios.get('/api/business/getbusiness')
             .then((response) => {
-                setProducts(response.data);
+                setProducts(response.data.data);
                 setLoading(false);
             })
             .catch((error) => {

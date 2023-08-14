@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import Vehicle from "@/models/vehicleSalesModel"
+import Business from "@/models/businessModel"
 import { connect } from "@/dbConfig/dbConfig"
 connect()
 
 export async function GET(request: NextRequest) {
     try {
-        const vehiclesalesdata = await Vehicle.find();
+        const businessdata = await Business.find();
 
         return NextResponse.json({
-            message: "all vehicle sales data",
-            data: vehiclesalesdata
+            message: "all business data",
+            data: businessdata
         })
     }
     catch (error: any) {

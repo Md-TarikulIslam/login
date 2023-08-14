@@ -5,7 +5,7 @@ import axios from 'axios';
 import Navbar from '@/app/components/Navbar';
 import Loader from '@/app/components/Loader';
 import { RxCross1 } from 'react-icons/rx';
-import ProductsCard from '@/app/components/ProductsCard';
+import ProductsCard from '@/app/components/Products/ProductsCard';
 
 const BusinessProducts = () => {
     const [products, setProducts] = useState([]);
@@ -14,9 +14,9 @@ const BusinessProducts = () => {
     const [data, setData] = useState();
 
     useEffect(() => {
-        axios.get('/api/products/get_products')
+        axios.get('/api/business/getbusiness')
             .then((response) => {
-                setProducts(response.data);
+                setProducts(response.data.data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -26,7 +26,7 @@ const BusinessProducts = () => {
     }, []);
 
     return (
-        <div className='container mx-auto'>
+        <div className='container mx-auto min-h-screen pb-4'>
             <Navbar />
             <h2 className='text-2xl font-semibold mt-4 mb-3 text-center'>All Business Products</h2>
             {

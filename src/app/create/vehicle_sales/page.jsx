@@ -72,7 +72,6 @@ const vehicleSales = () => {
         }
 
         data.date_of_purchase = new Date(data.date_of_purchase);
-        data.price = parseFloat(data.price);
         data.email = user;
 
         axios.post('/api/vehicle/register', data)

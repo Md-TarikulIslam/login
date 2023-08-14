@@ -27,7 +27,7 @@ const RentInformation = () => {
     }, []);
 
     return (
-        <div className='container mx-auto min-h-screen'>
+        <div className='container mx-auto min-h-screen pb-4'>
             <Navbar />
             <h2 className='text-2xl font-semibold mt-4 mb-3 text-center'>All House Info for Rent</h2>
             {

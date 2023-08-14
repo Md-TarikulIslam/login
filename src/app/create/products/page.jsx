@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styles } from '@/app/styles/styles';
 import Link from 'next/link';
 import axios from 'axios';
@@ -10,8 +10,8 @@ import { useRouter } from 'next/navigation';
 
 const initialState = {
     photo: '',
-    products_quantity: '',
-    products_price: '',
+    products_quantity: 0,
+    products_price: 0,
     social_media: '',
     company_name: '',
     company_registered_address: '',
@@ -32,6 +32,16 @@ const products = () => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState(initialState);
     const [image, setImage] = useState(null);
+    const [user, setUser] = useState("")
+
+    const getUserDetails = async () => {
+        const res = await axios.get('/api/users/me')
+        setUser(res.data.data.email)
+    }
+
+    useEffect(() => {
+        getUserDetails();
+    }, []);
 
     const handleImageChange = (e) => {
         setImage(e.target.files[0]);
@@ -59,10 +69,10 @@ const products = () => {
             data.photo = imgData.data.url.toString();
         }
 
-        data.products_quantity =  parseInt(data.products_quantity, 10);
-        data.products_price = parseFloat(data.products_price);
+        data.email = user;
+        console.log(data)
 
-        axios.post('/api/products', data)
+        axios.post('/api/business/register', data)
             .then(() => {
                 router.push('/create', undefined, { shallow: true });
                 setLoading(false);
@@ -103,7 +113,7 @@ const products = () => {
                                 <input
                                     id="products_quantity"
                                     name="products_quantity"
-                                    type="text"
+                                    type="number"
                                     required
                                     value={data.products_quantity}
                                     onChange={e => setData({ ...data, products_quantity: e.target.value })}
@@ -119,7 +129,7 @@ const products = () => {
                                 <input
                                     id="products_price"
                                     name="products_price"
-                                    type="text"
+                                    type="number"
                                     required
                                     value={data.products_price}
                                     onChange={e => setData({ ...data, products_price: e.target.value })}
@@ -218,8 +228,8 @@ const products = () => {
                                     type="email"
                                     autoComplete="email"
                                     required
-                                    value={data.email}
-                                    onChange={e => setData({ ...data, email: e.target.value })}
+                                    defaultValue={user}
+                                    readOnly
                                     className={`${styles.input}`}
                                 />
                             </div>
