@@ -51,7 +51,7 @@ const MarriageBiodata = () => {
             );
         });
 
-        setBiodata(filteredData);
+        setFilteredData(filteredData);
         console.log(filteredData)
     };
     const closeModal = () => {
@@ -62,6 +62,7 @@ const MarriageBiodata = () => {
         axios.get('/api/biodata/getbiodata')
             .then((response) => {
                 setBiodata(response.data.data);
+                setFilteredData(response.data.data)
                 setLoading(false);
             })
             .catch((error) => {
@@ -214,7 +215,7 @@ const MarriageBiodata = () => {
                                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
 
                                     {
-                                        biodata.map((data, index) =>
+                                        filteredData.map((data, index) =>
                                             <BioCard
                                                 key={index}
                                                 data={data}

@@ -50,7 +50,7 @@ const SalesInformation = () => {
             );
         });
 
-        setSales(filteredData);
+        setFilteredData(filteredData);
         console.log(filteredData)
     };
     const closeModal = () => {
@@ -62,6 +62,7 @@ const SalesInformation = () => {
         axios.get('/api/sales/getsales')
             .then((response) => {
                 setSales(response.data.data);
+                setFilteredData(response.data.data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -190,7 +191,7 @@ const SalesInformation = () => {
                                 </div>
                                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
                                     {
-                                        sales.map((data, index) =>
+                                        filteredData.map((data, index) =>
                                             <SalesCard
                                                 key={index}
                                                 data={data}

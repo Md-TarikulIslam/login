@@ -18,8 +18,8 @@ const RentInformation = () => {
     const [filterOptions, setFilterOptions] = useState({
         area: '',
         land_type: '',
-        advance_pay: 0,
-        monthly_rent: 0,
+        advance_pay: "",
+        monthly_rent: "",
         room: "",
         bathroom: "",
         kitchen: "",
@@ -59,7 +59,7 @@ const RentInformation = () => {
             );
         });
 
-        setRent(filteredData);
+        setFilteredData(filteredData);
         console.log(filteredData)
     };
     const closeModal = () => {
@@ -70,6 +70,7 @@ const RentInformation = () => {
         axios.get('/api/rent/getrent')
             .then((response) => {
                 setRent(response.data.data);
+                setFilteredData(response.data.data)
                 setLoading(false);
             })
             .catch((error) => {
@@ -226,7 +227,7 @@ const RentInformation = () => {
                                 </div>
                                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
                                     {
-                                        rent.map((data, index) =>
+                                        filteredData.map((data, index) =>
                                             <RentCard
                                                 key={index}
                                                 data={data}
