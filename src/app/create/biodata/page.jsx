@@ -45,6 +45,9 @@ const biodata = () => {
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState("")
+    
+    
+    
 
     const getUserDetails = async () => {
         const res = await axios.get('/api/users/me')

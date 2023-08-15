@@ -7,11 +7,54 @@ import Loader from '@/app/components/Loader';
 import BioCard from '@/app/components/Biodata/BioCard';
 import { RxCross1 } from 'react-icons/rx';
 
+
 const MarriageBiodata = () => {
     const [biodata, setBiodata] = useState([]);
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [data, setData] = useState();
+    const [isOpen, setIsOpen] = useState(false);
+    const [filteredData, setFilteredData] = useState([]);
+    const [filterOptions, setFilterOptions] = useState({
+        gender: '',
+        marital_status: '',
+        occupation: '',
+        education: '',
+        religion: '',
+        country: ''
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFilterOptions((prevOptions) => ({ ...prevOptions, [name]: value }));
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+
+        // Perform filtering based on selected options
+        const filteredData = biodata.filter((item) => {
+            return (
+                (filterOptions.gender.toLowerCase() === '' || item.gender.toLowerCase() === filterOptions.gender.toLowerCase()) &&
+                (filterOptions.education.toLowerCase() === '' ||
+                    item.education.toLowerCase() === filterOptions.education.toLowerCase()) &&
+                (filterOptions.marital_status.toLowerCase() === '' ||
+                    item.marital_status.toLowerCase() === filterOptions.marital_status.toLowerCase()) &&
+                (filterOptions.religion.toLowerCase() === '' ||
+                    item.religion.toLowerCase() === filterOptions.religion.toLowerCase()) &&
+                (filterOptions.occupation.toLowerCase() === '' ||
+                    item.occupation.toLowerCase() === filterOptions.occupation.toLowerCase()) &&
+                (filterOptions.country.toLowerCase() === '' ||
+                    item.country.toLowerCase() === filterOptions.country.toLowerCase())
+            );
+        });
+
+        setBiodata(filteredData);
+        console.log(filteredData)
+    };
+    const closeModal = () => {
+        setIsOpen(false);
+    };
 
     useEffect(() => {
         axios.get('/api/biodata/getbiodata')
@@ -24,6 +67,9 @@ const MarriageBiodata = () => {
                 setLoading(false);
             });
     }, []);
+    const openModal = () => {
+        setIsOpen(true);
+    };
 
     return (
         <div className='container mx-auto min-h-screen pb-4'>
@@ -36,17 +82,130 @@ const MarriageBiodata = () => {
                         loading ?
                             <div className='flex justify-center mt-52 h-screen'> <Loader /> </div>
                             :
-                            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-                                {
-                                    biodata.map((data, index) =>
-                                        <BioCard
-                                            key={index}
-                                            data={data}
-                                            setOpen={setOpen}
-                                            setData={setData}
-                                        />
-                                    )
-                                }
+
+                            <div>
+
+                                <div>
+                                    <button
+                                        onClick={openModal}
+                                        className="px-4 py-2 bg-blue-700 text-white rounded"
+                                    >
+                                        Filter
+                                    </button>
+
+                                    {isOpen && (
+                                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                            <div className="bg-white p-6 rounded-lg shadow-lg">
+                                                <h2 className="text-xl font-semibold mb-4">Filter Items</h2>
+
+
+                                                <div>
+                                                    <form onSubmit={handleSubmit}>
+                                                        <div className='flex justify-between '>
+                                                            <label>Gender:</label>
+
+                                                            <select name="gender" value={filterOptions.gender} onChange={handleChange} className='border px-4 border-solid border-blue-500 rounded w-32' >
+                                                                <option value="">All</option>
+                                                                <option value="Male">Male</option>
+                                                                <option value="Female">Female</option>
+                                                            </select>
+                                                        </div>
+                                                        <div className='flex justify-between my-5'>
+                                                            <label>Education:</label>
+                                                            <select name="education" value={filterOptions.education} onChange={handleChange} className='border px-4 border-solid border-blue-500 rounded w-32'>
+                                                                <option value="">All</option>
+                                                                <option value="ssc">ssc</option>
+                                                                <option value="hsc">hsc</option>
+                                                                <option value="hons">hons</option>
+
+                                                            </select>
+                                                        </div>
+                                                        <div className='flex justify-between '>
+                                                            <label>Marital Status:</label>
+                                                            <select
+                                                                name="marital_status"
+                                                                value={filterOptions.marital_status}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-32'
+                                                            >
+                                                                <option value="">All</option>
+                                                                <option value="Single">Single</option>
+                                                                <option value="Married">Married</option>
+                                                                <option value="Divorced">Divorced</option>
+                                                                <option value="Widowed">Widowed</option>
+                                                            </select>
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Religion:</label>
+                                                            <select
+                                                                name="religion"
+                                                                value={filterOptions.religion}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-32'
+                                                            >
+                                                                <option value="">All</option>
+                                                                <option value="Islam">Islam</option>
+                                                                <option value="Hindu">Hindu</option>
+
+                                                            </select>
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Occupation:</label>
+                                                            <input
+                                                                type="text"
+                                                                name="occupation"
+                                                                value={filterOptions.occupation}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-32'
+                                                            />
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Country:</label>
+                                                            <input
+                                                                type="text"
+                                                                name="country"
+                                                                value={filterOptions.country}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-32'
+                                                            />
+                                                        </div>
+                                                        <div className='flex flex-row gap-3'>
+                                                            <div>
+                                                                <button type="submit" className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">Filter Data</button>
+                                                            </div>
+                                                            <div>
+                                                                <button
+                                                                    onClick={closeModal}
+                                                                    className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg"
+                                                                >
+                                                                    Close
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                    <div>
+                                                        {/* Display the filtered data here */}
+                                                        <pre>{JSON.stringify(filteredData, null, 2)}</pre>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+
+                                    {
+                                        biodata.map((data, index) =>
+                                            <BioCard
+                                                key={index}
+                                                data={data}
+                                                setOpen={setOpen}
+                                                setData={setData}
+                                            />
+                                        )
+                                    }
+                                </div>
                             </div>
                     }
                 </>
