@@ -21,7 +21,9 @@ const MarriageBiodata = () => {
         occupation: '',
         education: '',
         religion: '',
-        country: ''
+        country: '',
+        height: 0,
+        weight: 0
     });
 
     const handleChange = (e) => {
@@ -165,6 +167,26 @@ const MarriageBiodata = () => {
                                                                 type="text"
                                                                 name="country"
                                                                 value={filterOptions.country}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
+                                                            />
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Height:</label>
+                                                            <input
+                                                                type="range"
+                                                                name="height"
+                                                                value={filterOptions.height}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
+                                                            />
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Weight:</label>
+                                                            <input
+                                                                type="range"
+                                                                name="weight"
+                                                                value={filterOptions.weight}
                                                                 onChange={handleChange}
                                                                 className='border px-4 border-solid border-blue-500 rounded w-52'
                                                             />
