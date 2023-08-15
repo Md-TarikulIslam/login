@@ -13,6 +13,58 @@ const RentInformation = () => {
     const [loading, setLoading] = useState(true);
     const [open, setOpen] = useState(false);
     const [data, setData] = useState();
+    const [isOpen, setIsOpen] = useState(false);
+    const [filteredData, setFilteredData] = useState([]);
+    const [filterOptions, setFilterOptions] = useState({
+        area: '',
+        land_type: '',
+        advance_pay: 0,
+        monthly_rent: 0,
+        room: "",
+        bathroom: "",
+        kitchen: "",
+        balcony: "",
+        country: '',
+
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFilterOptions((prevOptions) => ({ ...prevOptions, [name]: value }));
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+
+        // Perform filtering based on selected options
+        const filteredData = rent.filter((item) => {
+            return (
+                (filterOptions.area.toLowerCase() === '' || item.area.toLowerCase() === filterOptions.area.toLowerCase()) &&
+                (filterOptions.monthly_rent.toLowerCase() === '' ||
+                    item.monthly_rent.toLowerCase() === filterOptions.monthly_rent.toLowerCase()) &&
+                (filterOptions.land_type.toLowerCase() === '' ||
+                    item.land_type.toLowerCase() === filterOptions.land_type.toLowerCase()) &&
+                (filterOptions.room.toLowerCase() === '' ||
+                    item.room.toLowerCase() === filterOptions.room.toLowerCase()) &&
+                (filterOptions.bathroom.toLowerCase() === '' ||
+                    item.bathroom.toLowerCase() === filterOptions.bathroom.toLowerCase()) &&
+                (filterOptions.kitchen.toLowerCase() === '' ||
+                    item.kitchen.toLowerCase() === filterOptions.kitchen.toLowerCase()) &&
+                (filterOptions.balcony.toLowerCase() === '' ||
+                    item.balcony.toLowerCase() === filterOptions.balcony.toLowerCase()) &&
+                (filterOptions.advance_pay.toLowerCase() === '' ||
+                    item.advance_pay.toLowerCase() === filterOptions.advance_pay.toLowerCase()) &&
+                (filterOptions.country.toLowerCase() === '' ||
+                    item.country.toLowerCase() === filterOptions.country.toLowerCase())
+            );
+        });
+
+        setRent(filteredData);
+        console.log(filteredData)
+    };
+    const closeModal = () => {
+        setIsOpen(false);
+    };
 
     useEffect(() => {
         axios.get('/api/rent/getrent')
@@ -25,6 +77,9 @@ const RentInformation = () => {
                 setLoading(false);
             });
     }, []);
+    const openModal = () => {
+        setIsOpen(true);
+    };
 
     return (
         <div className='container mx-auto min-h-screen pb-4'>
@@ -37,17 +92,150 @@ const RentInformation = () => {
                         loading ?
                             <div className='flex justify-center mt-52 h-screen'> <Loader /> </div>
                             :
-                            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
-                                {
-                                    rent.map((data, index) =>
-                                        <RentCard
-                                            key={index}
-                                            data={data}
-                                            setOpen={setOpen}
-                                            setData={setData}
-                                        />
-                                    )
-                                }
+                            <div>
+                                <div>
+                                    <button
+                                        onClick={openModal}
+                                        className="px-4 py-2 bg-blue-700 text-white rounded"
+                                    >
+                                        Filter
+                                    </button>
+
+                                    {isOpen && (
+                                        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                            <div className="bg-white p-6 rounded-lg shadow-lg">
+                                                <h2 className="text-xl font-semibold mb-4">Filter Items</h2>
+
+
+                                                <div>
+                                                    <form onSubmit={handleSubmit}>
+                                                        <div className='flex justify-between '>
+                                                            <label>Area:</label>
+
+                                                            <input
+                                                                type="text"
+                                                                name="area"
+                                                                value={filterOptions.area}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
+                                                            />
+                                                        </div>
+                                                        <div className='flex justify-between my-5'>
+                                                            <label>Land Type:</label>
+
+                                                            <input
+                                                                type="text"
+                                                                name="land_type"
+                                                                value={filterOptions.land_type}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
+                                                            />
+                                                        </div>
+
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Room:</label>
+                                                            <input
+                                                                type="text"
+                                                                name="room"
+                                                                value={filterOptions.room}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
+                                                            />
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Bathroom:</label>
+                                                            <input
+                                                                type="text"
+                                                                name="bathroom"
+                                                                value={filterOptions.bathroom}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
+                                                            />
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Kitchen:</label>
+                                                            <input
+                                                                type="text"
+                                                                name="kitchen"
+                                                                value={filterOptions.kitchen}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
+                                                            />
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Balcony:</label>
+                                                            <input
+                                                                type="text"
+                                                                name="balcony"
+                                                                value={filterOptions.balcony}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
+                                                            />
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Advance Pay:</label>
+                                                            <input
+                                                                type="range"
+                                                                name="advance_pay"
+                                                                value={filterOptions.advance_pay}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
+                                                            />
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Monthly Rent:</label>
+                                                            <input
+                                                                type="range"
+                                                                name="monthly_rent"
+                                                                value={filterOptions.monthly_rent}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
+                                                            />
+                                                        </div>
+                                                        <div className='flex justify-between mt-5'>
+                                                            <label>Country:</label>
+                                                            <input
+                                                                type="text"
+                                                                name="country"
+                                                                value={filterOptions.country}
+                                                                onChange={handleChange}
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
+                                                            />
+                                                        </div>
+
+
+                                                        <div className='flex flex-row gap-3'>
+                                                            <div>
+                                                                <button type="submit" className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">Filter Data</button>
+                                                            </div>
+                                                            <div>
+                                                                <button
+                                                                    onClick={closeModal}
+                                                                    className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg"
+                                                                >
+                                                                    Close
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
+                                    {
+                                        rent.map((data, index) =>
+                                            <RentCard
+                                                key={index}
+                                                data={data}
+                                                setOpen={setOpen}
+                                                setData={setData}
+                                            />
+                                        )
+                                    }
+                                </div>
                             </div>
                     }
                 </>
