@@ -104,7 +104,7 @@ const MarriageBiodata = () => {
                                                         <div className='flex justify-between '>
                                                             <label>Gender:</label>
 
-                                                            <select name="gender" value={filterOptions.gender} onChange={handleChange} className='border px-4 border-solid border-blue-500 rounded w-32' >
+                                                            <select name="gender" value={filterOptions.gender} onChange={handleChange} className='border px-4 border-solid border-blue-500 rounded w-52' >
                                                                 <option value="">All</option>
                                                                 <option value="Male">Male</option>
                                                                 <option value="Female">Female</option>
@@ -112,7 +112,7 @@ const MarriageBiodata = () => {
                                                         </div>
                                                         <div className='flex justify-between my-5'>
                                                             <label>Education:</label>
-                                                            <select name="education" value={filterOptions.education} onChange={handleChange} className='border px-4 border-solid border-blue-500 rounded w-32'>
+                                                            <select name="education" value={filterOptions.education} onChange={handleChange} className='border px-4 border-solid border-blue-500 rounded w-52'>
                                                                 <option value="">All</option>
                                                                 <option value="ssc">ssc</option>
                                                                 <option value="hsc">hsc</option>
@@ -126,7 +126,7 @@ const MarriageBiodata = () => {
                                                                 name="marital_status"
                                                                 value={filterOptions.marital_status}
                                                                 onChange={handleChange}
-                                                                className='border px-4 border-solid border-blue-500 rounded w-32'
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
                                                             >
                                                                 <option value="">All</option>
                                                                 <option value="Single">Single</option>
@@ -141,7 +141,7 @@ const MarriageBiodata = () => {
                                                                 name="religion"
                                                                 value={filterOptions.religion}
                                                                 onChange={handleChange}
-                                                                className='border px-4 border-solid border-blue-500 rounded w-32'
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
                                                             >
                                                                 <option value="">All</option>
                                                                 <option value="Islam">Islam</option>
@@ -156,7 +156,7 @@ const MarriageBiodata = () => {
                                                                 name="occupation"
                                                                 value={filterOptions.occupation}
                                                                 onChange={handleChange}
-                                                                className='border px-4 border-solid border-blue-500 rounded w-32'
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
                                                             />
                                                         </div>
                                                         <div className='flex justify-between mt-5'>
@@ -166,7 +166,7 @@ const MarriageBiodata = () => {
                                                                 name="country"
                                                                 value={filterOptions.country}
                                                                 onChange={handleChange}
-                                                                className='border px-4 border-solid border-blue-500 rounded w-32'
+                                                                className='border px-4 border-solid border-blue-500 rounded w-52'
                                                             />
                                                         </div>
                                                         <div className='flex flex-row gap-3'>
@@ -184,10 +184,6 @@ const MarriageBiodata = () => {
                                                         </div>
                                                     </form>
 
-                                                    <div>
-                                                        {/* Display the filtered data here */}
-                                                        <pre>{JSON.stringify(filteredData, null, 2)}</pre>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
